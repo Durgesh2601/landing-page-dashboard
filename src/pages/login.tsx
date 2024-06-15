@@ -7,7 +7,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const login = () => {
-    debugger
     if (username === 'admin' && password === 'password') {
       localStorage.setItem('authenticated', 'true');
       router.push('/');
