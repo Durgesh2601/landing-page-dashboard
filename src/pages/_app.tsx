@@ -1,14 +1,20 @@
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import '../styles/globals.css';
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({
+  Component,
+  pageProps,
+}: {
+  Component: React.ElementType;
+  pageProps: any;
+}) {
   const router = useRouter();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('authenticated');
-    if (!isAuthenticated && router.pathname !== '/login') {
-      router.push('/login');
+    const isAuthenticated = localStorage.getItem("authenticated");
+    if (!isAuthenticated && router.pathname !== "/login") {
+      router.push("/login");
     }
   }, [router]);
 
