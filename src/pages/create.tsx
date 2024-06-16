@@ -1,50 +1,128 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Layout from '../components/Layout';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import Layout from "../components/Layout";
+import { useLandingPage } from "@/context/LandingPageContext";
 
 const Create = () => {
+  const { addLandingPage } = useLandingPage();
   const router = useRouter();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
 
-  const createPage = () => {
-    const newPage = {
-      id: Date.now().toString(),
-      title,
-      description,
-      status: 'Draft',
-      components: [],
-    };
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [components, setComponents] = useState<
+    Array<{ type: string; content: string }>
+  >([]);
 
-    const pages = JSON.parse(localStorage.getItem('landingPages') || '[]');
-    pages.push(newPage);
-    localStorage.setItem('landingPages', JSON.stringify(pages));
+  const handleAddComponent = (type: string) => {
+    setComponents([...components, { type, content: "" }]);
+  };
 
-    router.push('/');
+  const handleChangeComponentContent = (index: number, content: string) => {
+    const updatedComponents = components.map((component, i) =>
+      i === index ? { ...component, content } : component
+    );
+    setComponents(updatedComponents);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newPage = { title, description, components, status: "Draft", id: 0 };
+    addLandingPage(newPage);
+    router.push("/dashboard");
   };
 
   return (
     <Layout>
-      <h1 className="text-2xl font-bold mb-4">Create Landing Page</h1>
-      <form onSubmit={(e) => { e.preventDefault(); createPage(); }}>
+      <h1 className="text-4xl font-bold">Create New Landing Page</h1>
+      <form onSubmit={handleSubmit} className="mt-4">
         <div className="mb-4">
-          <label className="block text-gray-700">Title</label>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Title
+          </label>
           <input
+            id="title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="mt-1 block w-full p-2 border rounded"
+            required
+            className="block w-full p-2 mt-1 border border-gray-300 rounded"
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700">Description</label>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Description
+          </label>
           <textarea
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mt-1 block w-full p-2 border rounded"
+            required
+            className="block w-full p-2 mt-1 border border-gray-300 rounded"
           />
         </div>
-        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">Create</button>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Components
+          </label>
+          <div className="flex space-x-2">
+            <button
+              type="button"
+              onClick={() => handleAddComponent("Header")}
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Add Header
+            </button>
+            <button
+              type="button"
+              onClick={() => handleAddComponent("Text Block")}
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Add Text Block
+            </button>
+            <button
+              type="button"
+              onClick={() => handleAddComponent("Image")}
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Add Image
+            </button>
+            <button
+              type="button"
+              onClick={() => handleAddComponent("Footer")}
+              className="px-4 py-2 bg-blue-600 text-white rounded"
+            >
+              Add Footer
+            </button>
+          </div>
+        </div>
+        {components.map((component, index) => (
+          <div key={index} className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">
+              {component.type}
+            </label>
+            <input
+              type="text"
+              value={component.content}
+              onChange={(e) =>
+                handleChangeComponentContent(index, e.target.value)
+              }
+              required
+              className="block w-full p-2 mt-1 border border-gray-300 rounded"
+            />
+          </div>
+        ))}
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+        >
+          Create Landing Page
+        </button>
       </form>
     </Layout>
   );

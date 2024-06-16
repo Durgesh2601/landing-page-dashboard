@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { AuthProvider } from "@/context/AuthContext";
+import { LandingPageProvider } from "@/context/LandingPageContext";
 import "../styles/globals.css";
 
 function MyApp({
@@ -21,7 +22,9 @@ function MyApp({
 
   return (
     <AuthProvider>
-      <Component {...pageProps} />;
+      <LandingPageProvider>
+        <Component {...pageProps} />
+      </LandingPageProvider>
     </AuthProvider>
   );
 }
