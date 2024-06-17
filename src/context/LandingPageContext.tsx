@@ -5,23 +5,11 @@ import {
   useEffect,
   ReactNode,
 } from "react";
+import { v4 as uuid } from "uuid";
 import { LANDING_PAGE_STATUS, LOCAL_STORAGE_KEYS } from "@/constants";
+import { LandingPage, LandingPageContextType } from "@/types";
 
-const { DRAFT, LIVE } = LANDING_PAGE_STATUS;
 const { LANDING_PAGES } = LOCAL_STORAGE_KEYS;
-
-interface LandingPage {
-  id: number;
-  title: string;
-  description: string;
-  components: Array<{ type: string; content: string }>;
-  status: string | typeof DRAFT | typeof LIVE;
-}
-
-interface LandingPageContextType {
-  landingPages: LandingPage[];
-  addLandingPage: (page: LandingPage) => void;
-}
 
 const LandingPageContext = createContext<LandingPageContextType | undefined>(
   undefined
@@ -37,17 +25,23 @@ export const LandingPageProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("landingPages", JSON.stringify(landingPages));
-  }, [landingPages]);
-
   const addLandingPage = (page: LandingPage) => {
-    const newPage = { ...page, id: landingPages.length + 1 };
-    setLandingPages([...landingPages, newPage]);
+    const newPage: LandingPage = { ...page, id: uuid() };
+    const updatedPages: LandingPage[] = [...landingPages, newPage];
+    setLandingPages(updatedPages);
+    localStorage.setItem(LANDING_PAGES, JSON.stringify(updatedPages));
+  };
+
+  const updatePage = (page: LandingPage) => {
+    const updatedPages = landingPages.map((pageItem) =>
+      pageItem.id === page.id ? page : pageItem
+    );
+    setLandingPages(updatedPages);
+    localStorage.setItem(LANDING_PAGES, JSON.stringify(updatedPages));
   };
 
   return (
-    <LandingPageContext.Provider value={{ landingPages, addLandingPage }}>
+    <LandingPageContext.Provider value={{ landingPages, addLandingPage, updatePage }}>
       {children}
     </LandingPageContext.Provider>
   );

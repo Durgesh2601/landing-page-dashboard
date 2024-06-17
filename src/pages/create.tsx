@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuid } from "uuid";
 import Layout from "../components/Layout";
 import { useLandingPage } from "../context/LandingPageContext";
 import { useRouter } from "next/router";
@@ -29,9 +30,15 @@ const CreateLandingPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newPage = { title, description, components, status: DRAFT, id: 0 }; // id will be set in context
+    const newPage = {
+      title,
+      description,
+      components,
+      status: DRAFT,
+      id: uuid(),
+    };
     addLandingPage(newPage);
-    router.push("/dashboard");
+    router.push("/");
   };
 
   return (
