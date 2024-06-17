@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
 import Layout from "../components/Layout";
-import { useLandingPage } from "@/context/LandingPageContext";
+import { useLandingPage } from "../context/LandingPageContext";
+import { useRouter } from "next/router";
+import { LANDING_PAGE_STATUS } from "@/constants";
 
-const Create = () => {
+const { DRAFT } = LANDING_PAGE_STATUS;
+
+const CreateLandingPage = () => {
   const { addLandingPage } = useLandingPage();
   const router = useRouter();
 
@@ -26,7 +29,7 @@ const Create = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newPage = { title, description, components, status: "Draft", id: 0 };
+    const newPage = { title, description, components, status: DRAFT, id: 0 }; // id will be set in context
     addLandingPage(newPage);
     router.push("/dashboard");
   };
@@ -128,4 +131,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateLandingPage;

@@ -2,7 +2,10 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { AuthProvider } from "@/context/AuthContext";
 import { LandingPageProvider } from "@/context/LandingPageContext";
+import { LOCAL_STORAGE_KEYS } from "@/constants";
 import "../styles/globals.css";
+
+const { LOGIN_IDENTIFIER } = LOCAL_STORAGE_KEYS;
 
 function MyApp({
   Component,
@@ -14,7 +17,7 @@ function MyApp({
   const router = useRouter();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("authenticated");
+    const isAuthenticated = localStorage.getItem(LOGIN_IDENTIFIER);
     if (!isAuthenticated && router.pathname !== "/login") {
       router.push("/login");
     }

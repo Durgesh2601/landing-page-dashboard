@@ -6,6 +6,9 @@ import {
   ReactNode,
 } from "react";
 import { useRouter } from "next/router";
+import { LOCAL_STORAGE_KEYS } from "@/constants";
+
+const { LOGIN_IDENTIFIER } = LOCAL_STORAGE_KEYS;
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -24,13 +27,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    const authStatus = localStorage.getItem("isAuthenticated") || "false";
+    const authStatus = localStorage.getItem(LOGIN_IDENTIFIER) || "false";
     setIsAuthenticated(authStatus === "true" || JSON.parse(authStatus));
   }, []);
 
   const login = () => {
     setIsAuthenticated(true);
-    localStorage.setItem("isAuthenticated", "true");
+    localStorage.setItem(LOGIN_IDENTIFIER, "true");
     router.push("/");
   };
 
