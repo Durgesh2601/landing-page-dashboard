@@ -14,46 +14,59 @@ const Home = () => {
 
   return (
     <Layout>
-      <h1 className="text-2xl font-bold mb-4 mt-2">Landing Pages</h1>
-      <ul className="space-y-6">
-        {landingPages.map((page) => (
-          <li
-            key={page.id}
-            className="p-5 bg-white shadow-lg rounded-lg hover:shadow-sm duration-400"
-          >
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-semibold">{page.title}</h2>
-              <span
-                className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${
-                  page.status === LIVE
-                    ? "bg-green-500 text-white"
-                    : "bg-yellow-500 text-white"
-                }`}
+      {landingPages?.length === 0 ? (
+        <div className="flex items-center justify-center h-full mt-10">
+          <p className="text-gray-600 text-lg">No landing pages found!</p>
+        </div>
+      ) : (
+        <>
+          <h1 className="text-2xl font-bold mb-4 mt-2">Landing Pages</h1>
+
+          <ul className="space-y-6">
+            {landingPages.map((page) => (
+              <li
+                key={page.id}
+                className="p-5 bg-white shadow-lg rounded-lg hover:shadow-sm duration-400"
               >
-                {STATUS_LABEL_MAP[page.status as keyof typeof STATUS_LABEL_MAP]}
-              </span>
-            </div>
-            <p className="mt-2 text-gray-600">{page.description}</p>
-            <div className="mt-2 text-sm text-gray-500">
-              {page.status === LIVE && <p>Views: {page.views || 0}</p>}
-            </div>
-            <div className="mt-4 flex space-x-3">
-              <Link href={`/edit/${page.id}`}>
-                <p className="text-blue-500">Edit</p>
-              </Link>
-              <Link href={`/view/${page.id}`}>
-                <p className="text-blue-500">View</p>
-              </Link>
-              <button
-                onClick={() => deletePage(page.id)}
-                className="text-red-500"
-              >
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-semibold">{page.title}</h2>
+                  <span
+                    className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${
+                      page.status === LIVE
+                        ? "bg-green-500 text-white"
+                        : "bg-yellow-500 text-white"
+                    }`}
+                  >
+                    {
+                      STATUS_LABEL_MAP[
+                        page.status as keyof typeof STATUS_LABEL_MAP
+                      ]
+                    }
+                  </span>
+                </div>
+                <p className="mt-2 text-gray-600">{page.description}</p>
+                <div className="mt-2 text-sm text-gray-500">
+                  {page.status === LIVE && <p>Views: {page.views || 0}</p>}
+                </div>
+                <div className="mt-4 flex space-x-3">
+                  <Link href={`/edit/${page.id}`}>
+                    <p className="text-blue-500">Edit</p>
+                  </Link>
+                  <Link href={`/view/${page.id}`}>
+                    <p className="text-blue-500">View</p>
+                  </Link>
+                  <button
+                    onClick={() => deletePage(page.id)}
+                    className="text-red-500"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </Layout>
   );
 };
