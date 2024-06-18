@@ -2,17 +2,10 @@ import { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { useRouter } from "next/router";
 import { LANDING_PAGE_STATUS, COMPONENT_TYPES } from "@/constants";
-import { LandingPage, ComponentType } from "@/types";
+import { LandingPage, ComponentType, LandingPageFormProps } from "@/types";
 
 const { DRAFT, LIVE } = LANDING_PAGE_STATUS;
 const { HEADER, FOOTER, TEXT_BLOCK, IMAGE } = COMPONENT_TYPES;
-
-interface LandingPageFormProps {
-  initialData?: LandingPage;
-  onSave: (data: LandingPage) => void;
-  onPreview?: (data: LandingPage) => void;
-  onPublish?: (data: LandingPage) => void;
-}
 
 const LandingPageForm = ({
   initialData,
@@ -181,36 +174,18 @@ const LandingPageForm = ({
           <label className="block text-sm font-medium text-gray-700">
             {component.type}
           </label>
-          {component.type !== IMAGE && (
-            <input
-              type="text"
-              value={component.content}
-              onChange={(e) =>
-                handleChangeComponentContent(component?.id, e.target.value)
-              }
-              required
-              className="block w-full p-2 mt-1 border border-gray-300 rounded"
-            />
-          )}
-          {component.type === IMAGE && (
-            <div className="flex items-center mt-2">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  handleFileChange(component?.id, e.target.files?.[0] as File)
-                }
-                className="mr-2"
-              />
-              {component.content && (
-                <img
-                  src={component.content}
-                  alt="Uploaded-Image"
-                  className="h-20 w-20 object-cover rounded"
-                />
-              )}
-            </div>
-          )}
+          <input
+            type="text"
+            value={component.content}
+            onChange={(e) =>
+              handleChangeComponentContent(component?.id, e.target.value)
+            }
+            placeholder={
+              component?.type === IMAGE ? "Enter image url " : "Enter content"
+            }
+            required
+            className="block w-full p-2 mt-1 border border-gray-300 rounded"
+          />
           <button
             type="button"
             onClick={() => handleRemoveComponent(component?.id)}

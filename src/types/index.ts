@@ -29,4 +29,17 @@ interface LandingPageContextType {
   incrementViews: (id: string) => void;
 }
 
-export type { LandingPage, LandingPageContextType, Component, ComponentType };
+interface LandingPageFormProps {
+  initialData?: LandingPage;
+  onSave: (data: LandingPage) => void;
+  onPreview?: (data: LandingPage) => void;
+  onPublish?: (data: LandingPage) => void;
+}
+
+export type {
+  LandingPage,
+  LandingPageContextType,
+  Component,
+  ComponentType,
+  LandingPageFormProps,
+};

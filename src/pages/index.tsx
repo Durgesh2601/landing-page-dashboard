@@ -35,7 +35,7 @@ const Home = () => {
             </div>
             <p className="mt-2 text-gray-600">{page.description}</p>
             <div className="mt-2 text-sm text-gray-500">
-              <p>Views: {page.views || 0}</p>
+              {page.status === LIVE && <p>Views: {page.views || 0}</p>}
             </div>
             <div className="mt-4 flex space-x-3">
               <Link href={`/edit/${page.id}`}>

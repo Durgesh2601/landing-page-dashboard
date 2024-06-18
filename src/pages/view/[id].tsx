@@ -4,6 +4,9 @@ import Layout from "../../components/Layout";
 import { useLandingPage } from "@/context/LandingPageContext";
 import { LandingPage } from "@/types";
 import RenderComponent from "@/components/FormFactory";
+import { LANDING_PAGE_STATUS } from "@/constants";
+
+const { DRAFT } = LANDING_PAGE_STATUS;
 
 const View = () => {
   const router = useRouter();
@@ -18,7 +21,9 @@ const View = () => {
       (item: LandingPage) => item?.id === (id as string)
     );
     if (!landingPage) return;
-    incrementViews(id as string);
+    if (landingPage?.status !== DRAFT) {
+      incrementViews(id as string);
+    }
     setPage(landingPage);
   }, [id]);
 
@@ -26,7 +31,7 @@ const View = () => {
 
   return (
     <Layout>
-      <h1 className="text-2xl font-bold mb-4">{page.title}</h1>
+      <h1 className="text-2xl font-bold mb-4 mt-4">{page.title}</h1>
       <p className="mb-4">{page.description}</p>
       <div>
         {page.components.map((component, index) => (
