@@ -1,5 +1,5 @@
 import { LANDING_PAGE_STATUS, COMPONENT_TYPES } from "@/constants";
-import { ReactNode } from "react";
+import { ErrorInfo, ReactNode } from "react";
 
 const { DRAFT, LIVE } = LANDING_PAGE_STATUS;
 

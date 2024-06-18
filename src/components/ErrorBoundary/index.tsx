@@ -1,4 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import React, { Component, ErrorInfo } from "react";
+import { ErrorBoundaryProps, ErrorBoundaryState } from "@/types";
 import FallbackScreen from "../FallbackScreen";
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
