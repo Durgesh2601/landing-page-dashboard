@@ -34,6 +34,10 @@ const Home = () => {
               </span>
             </div>
             <p className="mt-2 text-gray-600">{page.description}</p>
+            <div className="mt-2 text-sm text-gray-500">
+              <p>Views: {page.views || 0}</p>
+              <p>Clicks: {page.clicks || 0}</p>
+            </div>
             <div className="mt-4 flex space-x-3">
               <Link href={`/edit/${page.id}`}>
                 <p className="text-blue-500">Edit</p>
