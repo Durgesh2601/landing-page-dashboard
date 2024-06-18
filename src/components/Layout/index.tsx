@@ -1,10 +1,6 @@
-import { ReactNode } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-
-interface LayoutProps {
-  children: ReactNode;
-}
+import { LayoutProps } from "@/types";
 
 const Layout = ({ children }: LayoutProps) => {
   const { logout } = useAuth();

@@ -12,8 +12,7 @@ const View = () => {
   const router = useRouter();
   const { id } = router.query;
   const [page, setPage] = useState<LandingPage | null>(null);
-  const { landingPages, updateLandingPagesInStore, incrementViews } =
-    useLandingPage();
+  const { landingPages, incrementViews } = useLandingPage();
 
   useEffect(() => {
     if (!id) return;

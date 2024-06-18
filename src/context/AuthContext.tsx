@@ -1,26 +1,11 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
+import { AuthContextType, AuthProviderProps } from "@/types";
 
 const { LOGIN_IDENTIFIER } = LOCAL_STORAGE_KEYS;
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
-}
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

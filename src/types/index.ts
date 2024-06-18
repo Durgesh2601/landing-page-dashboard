@@ -1,4 +1,5 @@
 import { LANDING_PAGE_STATUS, COMPONENT_TYPES } from "@/constants";
+import { ReactNode } from "react";
 
 const { DRAFT, LIVE } = LANDING_PAGE_STATUS;
 
@@ -36,10 +37,27 @@ interface LandingPageFormProps {
   onPublish?: (data: LandingPage) => void;
 }
 
+interface LayoutProps {
+  children: ReactNode;
+}
+
+interface AuthContextType {
+  isAuthenticated: boolean;
+  login: () => void;
+  logout: () => void;
+}
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
 export type {
-  LandingPage,
-  LandingPageContextType,
   Component,
+  LandingPage,
+  LayoutProps,
   ComponentType,
+  AuthContextType,
+  AuthProviderProps,
   LandingPageFormProps,
+  LandingPageContextType,
 };

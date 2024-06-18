@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { v4 as uuid } from "uuid";
 import { useRouter } from "next/router";
+import { v4 as uuid } from "uuid";
 import { LANDING_PAGE_STATUS, COMPONENT_TYPES } from "@/constants";
 import { LandingPage, ComponentType, LandingPageFormProps } from "@/types";
 
@@ -86,17 +86,6 @@ const LandingPageForm = ({
         status: LIVE,
       });
     }
-  };
-
-  const handleFileChange = (id: string, file: File) => {
-    const imageUrl = URL.createObjectURL(file);
-    const updatedComponents = formValues.components.map((component, i) =>
-      component?.id === id ? { ...component, content: imageUrl } : component
-    );
-    setFormValues({
-      ...formValues,
-      components: updatedComponents,
-    });
   };
 
   return (
