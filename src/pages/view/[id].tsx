@@ -1,62 +1,59 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { LOCAL_STORAGE_KEYS } from "@/constants";
+import { COMPONENT_TYPES } from "@/constants";
+import { useLandingPage } from "@/context/LandingPageContext";
+import { Component, ComponentType, LandingPage } from "@/types";
 
-const { LANDING_PAGES } = LOCAL_STORAGE_KEYS;
-
-interface Component {
-  type: "Header" | "Footer" | "TextBlock" | "Image";
-  content: string;
-}
-
-interface LandingPage {
-  id: string;
-  title: string;
-  description: string;
-  status: "Draft" | "Live";
-  components: Component[];
-  views: number;
-  clicks: number;
-}
+const { HEADER, FOOTER, TEXT_BLOCK, IMAGE } = COMPONENT_TYPES;
 
 const View = () => {
   const router = useRouter();
   const { id } = router.query;
   const [page, setPage] = useState<LandingPage | null>(null);
+  const { landingPages, updateLandingPagesInStore } = useLandingPage();
 
   useEffect(() => {
     if (id) {
-      const pages = JSON.parse(localStorage.getItem(LANDING_PAGES) || "[]");
-      const landingPage = pages.find(
-        (item: LandingPage) => Number(item?.id) === Number(id)
+      const landingPage: LandingPage | undefined = landingPages.find(
+        (item: LandingPage) => item?.id === id
       );
-      if (landingPage) {
-        // Increment view count
-        landingPage.views = (landingPage.views || 0) + 1;
-        setPage(landingPage);
-      }
+      if (!landingPage) return;
+      // Increment view count
+      landingPage.views = (landingPage.views || 0) + 1;
+      setPage(landingPage);
     }
   }, [id]);
 
   const handleButtonClick = () => {
-    if (page) {
-      const pages = JSON.parse(localStorage.getItem("landingPages") || "[]");
-      const landingPage = pages.find((p: LandingPage) => p.id === id);
-      if (landingPage) {
-        // Increment click count
-        landingPage.clicks = (landingPage.clicks || 0) + 1;
-        setPage(landingPage);
+    if (!page) return;
+    const landingPage = landingPages.find((p: LandingPage) => p.id === id);
+    if (!landingPage) return;
+    // Increment click count
+    landingPage.clicks = (landingPage.clicks || 0) + 1;
+    setPage(landingPage);
 
-        const updatedPages = pages.map((p: LandingPage) =>
-          p.id === landingPage.id ? landingPage : p
-        );
-        localStorage.setItem("landingPages", JSON.stringify(updatedPages));
-      }
-    }
+    const updatedPages = landingPages.map((p: LandingPage) =>
+      p.id === landingPage.id ? landingPage : p
+    );
+    updateLandingPagesInStore(updatedPages);
   };
 
   if (!page) return null;
+
+  const componentMap: {
+    [key in ComponentType]: (content: string) => JSX.Element;
+  } = {
+    [HEADER]: (content) => <h2 className="text-xl font-semibold">{content}</h2>,
+    [TEXT_BLOCK]: (content) => <p>{content}</p>,
+    [IMAGE]: (content) => <img src={content} alt="img" />,
+    [FOOTER]: (content) => <footer>{content}</footer>,
+  };
+
+  const RenderComponent = ({ component }: { component: Component }) => {
+    const ComponentRenderer = componentMap[component.type];
+    return ComponentRenderer ? ComponentRenderer(component.content) : null;
+  };
 
   return (
     <Layout>
@@ -65,16 +62,7 @@ const View = () => {
       <div>
         {page.components.map((component, index) => (
           <div key={index} className="mb-4">
-            {component.type === "Header" && (
-              <h2 className="text-xl font-semibold">{component.content}</h2>
-            )}
-            {component.type === "TextBlock" && <p>{component.content}</p>}
-            {component.type === "Image" && (
-              <img src={component.content} alt="" />
-            )}
-            {component.type === "Footer" && (
-              <footer>{component.content}</footer>
-            )}
+            {<RenderComponent component={component} />}
           </div>
         ))}
         <button

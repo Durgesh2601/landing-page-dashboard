@@ -5,8 +5,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { v4 as uuid } from "uuid";
-import { LANDING_PAGE_STATUS, LOCAL_STORAGE_KEYS } from "@/constants";
+import { LOCAL_STORAGE_KEYS } from "@/constants";
 import { LandingPage, LandingPageContextType } from "@/types";
 
 const { LANDING_PAGES } = LOCAL_STORAGE_KEYS;
@@ -26,8 +25,7 @@ export const LandingPageProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const addLandingPage = (page: LandingPage) => {
-    const newPage: LandingPage = { ...page, id: uuid() };
-    const updatedPages: LandingPage[] = [...landingPages, newPage];
+    const updatedPages: LandingPage[] = [...landingPages, page];
     setLandingPages(updatedPages);
     localStorage.setItem(LANDING_PAGES, JSON.stringify(updatedPages));
   };
@@ -40,8 +38,20 @@ export const LandingPageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem(LANDING_PAGES, JSON.stringify(updatedPages));
   };
 
+  const updateLandingPagesInStore = (pages: LandingPage[]) => {
+    setLandingPages(pages);
+    localStorage.setItem(LANDING_PAGES, JSON.stringify(pages));
+  };
+
   return (
-    <LandingPageContext.Provider value={{ landingPages, addLandingPage, updatePage }}>
+    <LandingPageContext.Provider
+      value={{
+        landingPages,
+        addLandingPage,
+        updatePage,
+        updateLandingPagesInStore,
+      }}
+    >
       {children}
     </LandingPageContext.Provider>
   );

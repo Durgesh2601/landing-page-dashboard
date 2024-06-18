@@ -3,9 +3,11 @@ import { v4 as uuid } from "uuid";
 import Layout from "../components/Layout";
 import { useLandingPage } from "../context/LandingPageContext";
 import { useRouter } from "next/router";
-import { LANDING_PAGE_STATUS } from "@/constants";
+import { LANDING_PAGE_STATUS, COMPONENT_TYPES } from "@/constants";
+import { Component, ComponentType } from "@/types";
 
 const { DRAFT } = LANDING_PAGE_STATUS;
+const { HEADER, FOOTER, TEXT_BLOCK, IMAGE } = COMPONENT_TYPES;
 
 const CreateLandingPage = () => {
   const { addLandingPage } = useLandingPage();
@@ -13,12 +15,10 @@ const CreateLandingPage = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [components, setComponents] = useState<
-    Array<{ type: string; content: string }>
-  >([]);
+  const [components, setComponents] = useState<Component[]>([]);
 
-  const handleAddComponent = (type: string) => {
-    setComponents([...components, { type, content: "" }]);
+  const handleAddComponent = (type: ComponentType) => {
+    setComponents([...components, { type, content: "", id: uuid() }]);
   };
 
   const handleChangeComponentContent = (index: number, content: string) => {
@@ -83,28 +83,28 @@ const CreateLandingPage = () => {
           <div className="flex space-x-2">
             <button
               type="button"
-              onClick={() => handleAddComponent("Header")}
+              onClick={() => handleAddComponent(HEADER)}
               className="px-4 py-2 bg-blue-600 text-white rounded"
             >
               Add Header
             </button>
             <button
               type="button"
-              onClick={() => handleAddComponent("Text Block")}
+              onClick={() => handleAddComponent(TEXT_BLOCK)}
               className="px-4 py-2 bg-blue-600 text-white rounded"
             >
               Add Text Block
             </button>
             <button
               type="button"
-              onClick={() => handleAddComponent("Image")}
+              onClick={() => handleAddComponent(IMAGE)}
               className="px-4 py-2 bg-blue-600 text-white rounded"
             >
               Add Image
             </button>
             <button
               type="button"
-              onClick={() => handleAddComponent("Footer")}
+              onClick={() => handleAddComponent(FOOTER)}
               className="px-4 py-2 bg-blue-600 text-white rounded"
             >
               Add Footer

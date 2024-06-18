@@ -5,7 +5,6 @@ import Layout from "../../components/Layout";
 import { LANDING_PAGE_STATUS } from "@/constants";
 import { useLandingPage } from "@/context/LandingPageContext";
 import { LandingPage } from "@/types";
-import { getLabelByType } from "@/utils";
 
 const { DRAFT } = LANDING_PAGE_STATUS;
 
@@ -60,7 +59,7 @@ const Create = () => {
     setFormValues({
       ...formValues,
       components: [
-        ...formValues?.components,
+        ...(formValues?.components || []),
         {
           id: uuid(),
           type,
@@ -135,7 +134,7 @@ const Create = () => {
         </div>
         {formValues?.components?.map((component, index) => (
           <div key={index} className="mb-4">
-            <label className="block text-gray-700">{getLabelByType(formValues, component?.type)}</label>
+            <label className="block text-gray-700">{component?.type}</label>
             <input
               type="text"
               value={component.content}
