@@ -19,7 +19,7 @@ const CreateLandingPage = () => {
 
   return (
     <Layout>
-      <h1 className="text-4xl font-bold">Create New Landing Page</h1>
+      <h1 className="text-3xl font-bold mt-4">Create New Landing Page</h1>
       <LandingPageForm onSave={handleSave} />
     </Layout>
   );
