@@ -25,7 +25,7 @@ const Preview = () => {
 
   return (
     <Layout>
-      <h1 className="text-4xl font-bold mb-4">{landingPage.title}</h1>
+      <h1 className="text-2xl font-bold mb-4 mt-4">{landingPage.title}</h1>
       <p className="mb-4">{landingPage.description}</p>
       <div>
         {landingPage.components.map((component) => (

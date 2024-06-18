@@ -40,7 +40,7 @@ const EditLandingPage = () => {
 
   return (
     <Layout>
-      <h1 className="text-2xl font-bold mb-4">Edit Landing Page</h1>
+      <h1 className="text-2xl font-bold mb-4 mt-4">Edit Landing Page</h1>
       <LandingPageForm
         initialData={initialData}
         onSave={handleSave}
