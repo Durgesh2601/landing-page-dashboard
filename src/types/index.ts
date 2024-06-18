@@ -1,4 +1,5 @@
 import { LANDING_PAGE_STATUS, COMPONENT_TYPES } from "@/constants";
+import { ErrorInfo, ReactNode } from "react";
 
 const { DRAFT, LIVE } = LANDING_PAGE_STATUS;
 
@@ -36,10 +37,45 @@ interface LandingPageFormProps {
   onPublish?: (data: LandingPage) => void;
 }
 
+interface LayoutProps {
+  children: ReactNode;
+}
+
+interface AuthContextType {
+  isAuthenticated: boolean;
+  login: () => void;
+  logout: () => void;
+}
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+interface FallbackScreenProps {
+  error: Error | null;
+  errorInfo: React.ErrorInfo | null;
+}
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
+}
+
 export type {
-  LandingPage,
-  LandingPageContextType,
   Component,
+  LandingPage,
+  LayoutProps,
   ComponentType,
+  AuthContextType,
+  AuthProviderProps,
+  ErrorBoundaryProps,
+  ErrorBoundaryState,
+  FallbackScreenProps,
   LandingPageFormProps,
+  LandingPageContextType,
 };

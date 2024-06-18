@@ -1,10 +1,6 @@
-import { ReactNode } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-
-interface LayoutProps {
-  children: ReactNode;
-}
+import { LayoutProps } from "@/types";
 
 const Layout = ({ children }: LayoutProps) => {
   const { logout } = useAuth();
@@ -20,9 +16,6 @@ const Layout = ({ children }: LayoutProps) => {
           </Link>
           <Link href="/create" className="mr-4">
             Create Landing Page
-          </Link>
-          <Link href="/analytics" className="mr-4">
-            Analytics
           </Link>
         </div>
         <div

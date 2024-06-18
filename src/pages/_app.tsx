@@ -4,6 +4,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import { LandingPageProvider } from "@/context/LandingPageContext";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
 import "../styles/globals.css";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import FallbackScreen from "@/components/FallbackScreen";
 
 const { LOGIN_IDENTIFIER } = LOCAL_STORAGE_KEYS;
 
@@ -24,11 +26,13 @@ function MyApp({
   }, [router]);
 
   return (
-    <AuthProvider>
-      <LandingPageProvider>
-        <Component {...pageProps} />
-      </LandingPageProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <LandingPageProvider>
+          <Component {...pageProps} />
+        </LandingPageProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 
