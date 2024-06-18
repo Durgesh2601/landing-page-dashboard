@@ -51,6 +51,21 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+interface FallbackScreenProps {
+  error: Error | null;
+  errorInfo: React.ErrorInfo | null;
+}
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
+}
+
 export type {
   Component,
   LandingPage,
@@ -58,6 +73,9 @@ export type {
   ComponentType,
   AuthContextType,
   AuthProviderProps,
+  ErrorBoundaryProps,
+  ErrorBoundaryState,
+  FallbackScreenProps,
   LandingPageFormProps,
   LandingPageContextType,
 };
