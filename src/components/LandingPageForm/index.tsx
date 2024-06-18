@@ -40,9 +40,9 @@ const LandingPageForm = ({
     });
   };
 
-  const handleChangeComponentContent = (index: number, value: string) => {
+  const handleChangeComponentContent = (id: string, value: string) => {
     const updatedComponents = formValues.components.map((component, i) =>
-      i === index ? { ...component, content: value } : component
+      component?.id === id ? { ...component, content: value } : component
     );
     setFormValues({
       ...formValues,
@@ -64,9 +64,9 @@ const LandingPageForm = ({
     });
   };
 
-  const handleRemoveComponent = (index: number) => {
+  const handleRemoveComponent = (id: string) => {
     const updatedComponents = formValues.components.filter(
-      (_, i) => i !== index
+      (component) => component?.id !== id
     );
     setFormValues({
       ...formValues,
@@ -93,6 +93,17 @@ const LandingPageForm = ({
         status: LIVE,
       });
     }
+  };
+
+  const handleFileChange = (id: string, file: File) => {
+    const imageUrl = URL.createObjectURL(file);
+    const updatedComponents = formValues.components.map((component, i) =>
+      component?.id === id ? { ...component, content: imageUrl } : component
+    );
+    setFormValues({
+      ...formValues,
+      components: updatedComponents,
+    });
   };
 
   return (
@@ -166,22 +177,43 @@ const LandingPageForm = ({
         </div>
       </div>
       {formValues.components.map((component, index) => (
-        <div key={index} className="mb-4">
+        <div key={component?.id} className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             {component.type}
           </label>
-          <input
-            type="text"
-            value={component.content}
-            onChange={(e) =>
-              handleChangeComponentContent(index, e.target.value)
-            }
-            required
-            className="block w-full p-2 mt-1 border border-gray-300 rounded"
-          />
+          {component.type !== IMAGE && (
+            <input
+              type="text"
+              value={component.content}
+              onChange={(e) =>
+                handleChangeComponentContent(component?.id, e.target.value)
+              }
+              required
+              className="block w-full p-2 mt-1 border border-gray-300 rounded"
+            />
+          )}
+          {component.type === IMAGE && (
+            <div className="flex items-center mt-2">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  handleFileChange(component?.id, e.target.files?.[0] as File)
+                }
+                className="mr-2"
+              />
+              {component.content && (
+                <img
+                  src={component.content}
+                  alt="Uploaded-Image"
+                  className="h-20 w-20 object-cover rounded"
+                />
+              )}
+            </div>
+          )}
           <button
             type="button"
-            onClick={() => handleRemoveComponent(index)}
+            onClick={() => handleRemoveComponent(component?.id)}
             className="mt-2 px-3 py-1 bg-red-500 text-white rounded"
           >
             Remove
