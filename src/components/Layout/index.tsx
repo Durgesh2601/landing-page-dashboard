@@ -21,9 +21,6 @@ const Layout = ({ children }: LayoutProps) => {
           <Link href="/create" className="mr-4">
             Create Landing Page
           </Link>
-          <Link href="/analytics" className="mr-4">
-            Analytics
-          </Link>
         </div>
         <div
           className="flex items-center space-x-2 cursor-pointer"
