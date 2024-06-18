@@ -30,7 +30,7 @@ export const LandingPageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem(LANDING_PAGES, JSON.stringify(updatedPages));
   };
 
-  const updatePage = (page: LandingPage) => {
+  const updateLandingPage = (page: LandingPage) => {
     const updatedPages = landingPages.map((pageItem) =>
       pageItem.id === page.id ? page : pageItem
     );
@@ -48,7 +48,7 @@ export const LandingPageProvider = ({ children }: { children: ReactNode }) => {
       value={{
         landingPages,
         addLandingPage,
-        updatePage,
+        updateLandingPage,
         updateLandingPagesInStore,
       }}
     >

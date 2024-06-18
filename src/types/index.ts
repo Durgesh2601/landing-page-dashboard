@@ -23,7 +23,7 @@ interface LandingPage {
 interface LandingPageContextType {
   landingPages: LandingPage[];
   addLandingPage: (page: LandingPage) => void;
-  updatePage: (page: LandingPage) => void;
+  updateLandingPage: (page: LandingPage) => void;
   updateLandingPagesInStore: (pages: LandingPage[]) => void;
 }
 

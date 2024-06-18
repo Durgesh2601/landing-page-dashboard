@@ -1,11 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { COMPONENT_TYPES } from "@/constants";
 import { useLandingPage } from "@/context/LandingPageContext";
-import { Component, ComponentType, LandingPage } from "@/types";
-
-const { HEADER, FOOTER, TEXT_BLOCK, IMAGE } = COMPONENT_TYPES;
+import { LandingPage } from "@/types";
+import RenderComponent from "@/components/FormFactory";
 
 const View = () => {
   const router = useRouter();
@@ -24,36 +22,23 @@ const View = () => {
       setPage(landingPage);
     }
   }, [id]);
+  
+  // [TODO] : To be implemented later
+  // const handleButtonClick = () => {
+  //   if (!page) return;
+  //   const landingPage = landingPages.find((p: LandingPage) => p.id === id);
+  //   if (!landingPage) return;
+  //   // Increment click count
+  //   landingPage.clicks = (landingPage.clicks || 0) + 1;
+  //   setPage(landingPage);
 
-  const handleButtonClick = () => {
-    if (!page) return;
-    const landingPage = landingPages.find((p: LandingPage) => p.id === id);
-    if (!landingPage) return;
-    // Increment click count
-    landingPage.clicks = (landingPage.clicks || 0) + 1;
-    setPage(landingPage);
-
-    const updatedPages = landingPages.map((p: LandingPage) =>
-      p.id === landingPage.id ? landingPage : p
-    );
-    updateLandingPagesInStore(updatedPages);
-  };
+  //   const updatedPages = landingPages.map((p: LandingPage) =>
+  //     p.id === landingPage.id ? landingPage : p
+  //   );
+  //   updateLandingPagesInStore(updatedPages);
+  // };
 
   if (!page) return null;
-
-  const componentMap: {
-    [key in ComponentType]: (content: string) => JSX.Element;
-  } = {
-    [HEADER]: (content) => <h2 className="text-xl font-semibold">{content}</h2>,
-    [TEXT_BLOCK]: (content) => <p>{content}</p>,
-    [IMAGE]: (content) => <img src={content} alt="img" />,
-    [FOOTER]: (content) => <footer>{content}</footer>,
-  };
-
-  const RenderComponent = ({ component }: { component: Component }) => {
-    const ComponentRenderer = componentMap[component.type];
-    return ComponentRenderer ? ComponentRenderer(component.content) : null;
-  };
 
   return (
     <Layout>
@@ -65,12 +50,12 @@ const View = () => {
             {<RenderComponent component={component} />}
           </div>
         ))}
-        <button
+        {/* <button
           onClick={handleButtonClick}
           className="px-4 py-2 bg-green-600 text-white rounded mt-4"
         >
           Call to Action
-        </button>
+        </button> */}
       </div>
     </Layout>
   );

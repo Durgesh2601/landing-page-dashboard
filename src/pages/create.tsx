@@ -1,139 +1,26 @@
-import { useState } from "react";
-import { v4 as uuid } from "uuid";
-import Layout from "../components/Layout";
-import { useLandingPage } from "../context/LandingPageContext";
+import { useLandingPage } from "@/context/LandingPageContext";
+import Layout from "@/components/Layout";
+import LandingPageForm from "@/components/LandingPageForm";
 import { useRouter } from "next/router";
-import { LANDING_PAGE_STATUS, COMPONENT_TYPES } from "@/constants";
-import { Component, ComponentType } from "@/types";
+import { v4 as uuid } from "uuid";
+import { LANDING_PAGE_STATUS } from "@/constants";
+import { LandingPage } from "@/types";
 
 const { DRAFT } = LANDING_PAGE_STATUS;
-const { HEADER, FOOTER, TEXT_BLOCK, IMAGE } = COMPONENT_TYPES;
 
 const CreateLandingPage = () => {
   const { addLandingPage } = useLandingPage();
   const router = useRouter();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [components, setComponents] = useState<Component[]>([]);
-
-  const handleAddComponent = (type: ComponentType) => {
-    setComponents([...components, { type, content: "", id: uuid() }]);
-  };
-
-  const handleChangeComponentContent = (index: number, content: string) => {
-    const updatedComponents = components.map((component, i) =>
-      i === index ? { ...component, content } : component
-    );
-    setComponents(updatedComponents);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newPage = {
-      title,
-      description,
-      components,
-      status: DRAFT,
-      id: uuid(),
-    };
-    addLandingPage(newPage);
+  const handleSave = (data: LandingPage) => {
+    addLandingPage({ ...data, id: uuid(), status: DRAFT });
     router.push("/");
   };
 
   return (
     <Layout>
       <h1 className="text-4xl font-bold">Create New Landing Page</h1>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="mb-4">
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Title
-          </label>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="block w-full p-2 mt-1 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Description
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            className="block w-full p-2 mt-1 border border-gray-300 rounded"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">
-            Components
-          </label>
-          <div className="flex space-x-2">
-            <button
-              type="button"
-              onClick={() => handleAddComponent(HEADER)}
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Add Header
-            </button>
-            <button
-              type="button"
-              onClick={() => handleAddComponent(TEXT_BLOCK)}
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Add Text Block
-            </button>
-            <button
-              type="button"
-              onClick={() => handleAddComponent(IMAGE)}
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Add Image
-            </button>
-            <button
-              type="button"
-              onClick={() => handleAddComponent(FOOTER)}
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Add Footer
-            </button>
-          </div>
-        </div>
-        {components.map((component, index) => (
-          <div key={index} className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
-              {component.type}
-            </label>
-            <input
-              type="text"
-              value={component.content}
-              onChange={(e) =>
-                handleChangeComponentContent(index, e.target.value)
-              }
-              required
-              className="block w-full p-2 mt-1 border border-gray-300 rounded"
-            />
-          </div>
-        ))}
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          Create Landing Page
-        </button>
-      </form>
+      <LandingPageForm onSave={handleSave} />
     </Layout>
   );
 };
