@@ -22,6 +22,7 @@ interface LandingPage {
 
 interface LandingPageContextType {
   landingPages: LandingPage[];
+  deleteLandingPage: (id: string) => void;
   addLandingPage: (page: LandingPage) => void;
   updateLandingPage: (page: LandingPage) => void;
   updateLandingPagesInStore: (pages: LandingPage[]) => void;

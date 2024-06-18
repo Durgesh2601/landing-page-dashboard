@@ -49,7 +49,7 @@ const Layout = ({ children }: LayoutProps) => {
           </svg>
         </div>
       </nav>
-      <main className="p-4">{children}</main>
+      <main className="pl-5 pr-5">{children}</main>
     </div>
   );
 };

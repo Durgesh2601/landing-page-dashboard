@@ -43,11 +43,18 @@ export const LandingPageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem(LANDING_PAGES, JSON.stringify(pages));
   };
 
+  const deleteLandingPage = (id: string) => {
+    const updatedPages = landingPages.filter((page) => page.id !== id);
+    setLandingPages(updatedPages);
+    localStorage.setItem(LANDING_PAGES, JSON.stringify(updatedPages));
+  };
+
   return (
     <LandingPageContext.Provider
       value={{
         landingPages,
         addLandingPage,
+        deleteLandingPage,
         updateLandingPage,
         updateLandingPagesInStore,
       }}

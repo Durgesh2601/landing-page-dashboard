@@ -1,45 +1,45 @@
 import Layout from "../components/Layout";
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { LOCAL_STORAGE_KEYS } from "@/constants";
+import { useLandingPage } from "@/context/LandingPageContext";
+import { LANDING_PAGE_STATUS, STATUS_LABEL_MAP } from "@/constants";
 
-const { LANDING_PAGES } = LOCAL_STORAGE_KEYS;
-
-interface LandingPage {
-  id: string;
-  title: string;
-  description: string;
-  status: "Draft" | "Live";
-}
+const { LIVE } = LANDING_PAGE_STATUS;
 
 const Home = () => {
-  const [landingPages, setLandingPages] = useState<LandingPage[]>([]);
-
-  useEffect(() => {
-    const pages = JSON.parse(localStorage.getItem(LANDING_PAGES) || "[]");
-    setLandingPages(pages);
-  }, []);
+  const { landingPages, deleteLandingPage } = useLandingPage();
 
   const deletePage = (id: string) => {
-    const updatedPages = landingPages.filter((page) => page.id !== id);
-    setLandingPages(updatedPages);
-    localStorage.setItem("landingPages", JSON.stringify(updatedPages));
+    deleteLandingPage(id);
   };
 
   return (
     <Layout>
-      <ul className="mt-1 cursor-pointer">
+      <h1 className="text-2xl font-bold mb-4 mt-2">Landing Pages</h1>
+      <ul className="space-y-6">
         {landingPages.map((page) => (
-          <li key={page.id} className="mb-4 p-4 bg-white shadow-md rounded">
-            <h2 className="text-xl font-semibold">{page.title}</h2>
-            <p>{page.description}</p>
-            <p>Status: {page.status}</p>
-            <div className="mt-2">
-              <Link href={`/edit/${page.id}`} className="mr-3 text-blue-500">
-                Edit
+          <li
+            key={page.id}
+            className="p-5 bg-white shadow-lg rounded-lg hover:shadow-sm duration-400"
+          >
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-semibold">{page.title}</h2>
+              <span
+                className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${
+                  page.status === LIVE
+                    ? "bg-green-500 text-white"
+                    : "bg-yellow-500 text-white"
+                }`}
+              >
+                {STATUS_LABEL_MAP[page.status as keyof typeof STATUS_LABEL_MAP]}
+              </span>
+            </div>
+            <p className="mt-2 text-gray-600">{page.description}</p>
+            <div className="mt-4 flex space-x-3">
+              <Link href={`/edit/${page.id}`}>
+                <p className="text-blue-500">Edit</p>
               </Link>
-              <Link href={`/view/${page.id}`} className="mr-3 text-blue-500">
-                View
+              <Link href={`/view/${page.id}`}>
+                <p className="text-blue-500">View</p>
               </Link>
               <button
                 onClick={() => deletePage(page.id)}
