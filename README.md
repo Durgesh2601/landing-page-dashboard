@@ -57,6 +57,7 @@ The Landing Page Dashboard is a web application built with Next.js 14 and Tailwi
 - **src/pages/edit/[id].tsx**: Page for editing existing landing pages.
 - **src/pages/preview/[id].tsx**: Page for previewing landing pages.
 - **src/pages/view/[id].tsx**: Page for viewing landing pages.
+- **src/types/index.tsx**: TypeScript types used across the application.
 
 ## Usage
 
