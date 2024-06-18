@@ -1,40 +1,85 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Landing Page Dashboard
 
-## Getting Started
+## Overview
 
-First, run the development server:
+The Landing Page Dashboard is a web application built with Next.js 14 and Tailwind CSS, designed to manage and visualize landing pages. It provides functionality for creating, editing, previewing, and viewing landing pages. The application includes components for form rendering, error handling, and layout management.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Deployed Link
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[https://landing-page-dashboard-sigma.vercel.app/](https://landing-page-dashboard-sigma.vercel.app/)
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Features
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- **Form Factory**: Dynamically renders components based on type for landing page creation.
+- **Landing Page Form**: Component for editing and viewing landing page details.
+- **Layout**: Provides a consistent UI with navigation for managing landing pages.
+- **Error Boundary**: Catches errors in components to prevent crashes and show fallback UI.
+- **Dynamic Pages**: Includes routes for creating, editing, previewing, and viewing landing pages.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Next.js 14**: React framework for server-side rendering and static site generation.
+- **Tailwind CSS**: Utility-first CSS framework for styling components.
+- **React**: JavaScript library for building user interfaces.
+- **TypeScript**: Typed superset of JavaScript for improved development experience.
+- **Vercel**: Platform for deploying the application.
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone https://github.com/your-username/landing-page-dashboard.git
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. Install dependencies:
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Start the development server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and go to `http://localhost:3000` to view the application.
+
+## Project Structure
+
+- **src/components/ErrorBoundary/index.tsx**: Error boundary component to handle errors gracefully.
+- **src/components/FallbackScreen/index.tsx**: Fallback screen component displayed on error.
+- **src/components/FormFactory/index.tsx**: Component type renderer for dynamic form rendering.
+- **src/components/LandingPageForm/index.tsx**: Form for creating, editing, previewing, and viewing landing pages.
+- **src/components/Layout/index.tsx**: Layout component providing a consistent UI with navigation.
+- **src/pages/create.tsx**: Page for creating new landing pages.
+- **src/pages/edit/[id].tsx**: Page for editing existing landing pages.
+- **src/pages/preview/[id].tsx**: Page for previewing landing pages.
+- **src/pages/view/[id].tsx**: Page for viewing landing pages.
+
+## Usage
+
+1. **Create Page**: Use the `/create` route to create a new landing page.
+2. **Edit Page**: Access `/edit/[id]` to edit an existing landing page by ID.
+3. **Preview Page**: View a preview of a landing page using `/preview/[id]`.
+4. **View Page**: See the live version of a landing page via `/view/[id]`.
+
+## Development
+
+- **Component-Based**: Built using reusable components for modularity and maintainability.
+- **State Management**: Utilizes `React Context API` for centralized state management.
+- **Error Handling**: Implements an error boundary to catch and display errors without crashing the application.
+
+## Deployment
+
+The application is deployed on Vercel. Access it through the following link:
+
+[https://landing-page-dashboard-sigma.vercel.app/](https://landing-page-dashboard-sigma.vercel.app/)
+
+---
+
+**Author**: Durgesh Kumar Singh\
+**Contact**: dk829445@gmail.com
+
+For any inquiries or feedback, please reach out via email.
