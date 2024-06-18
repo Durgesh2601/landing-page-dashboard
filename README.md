@@ -29,7 +29,7 @@ The Landing Page Dashboard is a web application built with Next.js 14 and Tailwi
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/landing-page-dashboard.git
+   git clone https://github.com/Durgesh2601/landing-page-dashboard.git
    ```
 
 2. Install dependencies:
