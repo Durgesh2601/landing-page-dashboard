@@ -49,11 +49,20 @@ export const LandingPageProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem(LANDING_PAGES, JSON.stringify(updatedPages));
   };
 
+  const incrementViews = (id: string) => {
+    setLandingPages((prev) =>
+      prev.map((page) =>
+        page.id === id ? { ...page, views: (page.views || 0) + 1 } : page
+      )
+    );
+  };
+
   return (
     <LandingPageContext.Provider
       value={{
         landingPages,
         addLandingPage,
+        incrementViews,
         deleteLandingPage,
         updateLandingPage,
         updateLandingPagesInStore,

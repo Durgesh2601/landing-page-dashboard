@@ -26,6 +26,7 @@ interface LandingPageContextType {
   addLandingPage: (page: LandingPage) => void;
   updateLandingPage: (page: LandingPage) => void;
   updateLandingPagesInStore: (pages: LandingPage[]) => void;
+  incrementViews: (id: string) => void;
 }
 
 export type { LandingPage, LandingPageContextType, Component, ComponentType };
